@@ -13,3 +13,4 @@ tokio = { version = "1.21.2", features = [
     "signal",
 ] }
 dotenv = { version = "0.15.0", features = ["cli"] }
+clokwerk = "0.4.0"
