@@ -9,8 +9,6 @@ use std::time::Duration;
 
 use crate::group_event::GroupEvent;
 
-const CHANNEL_ID: u64 = 812142236295888910;
-
 pub struct Handler;
 
 #[async_trait]
@@ -62,7 +60,7 @@ impl EventHandler for Handler {
 
 async fn send_message(ctx: Context, event: GroupEvent) {
     // Get the channel ID where you want to send the message
-    let channel_id: ChannelId = CHANNEL_ID.into();
+    let channel_id: ChannelId = event.channel_id.into();
 
     let message: serenity::builder::CreateMessage = event.build_message();
 

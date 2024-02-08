@@ -8,6 +8,7 @@ use crate::poll_response::PollResponse;
 pub(crate) struct GroupEvent {
     pub title: String,
     pub description: String,
+    pub channel_id: u64,
     pub options: Vec<PollResponse>,
 }
 
@@ -16,6 +17,7 @@ impl GroupEvent {
         GroupEvent {
             title: "Weekly Pickleball".to_string(),
             description: "Westside Paper @ 7pm. You in?".to_string(),
+            channel_id: 1119044105792659526,
             options: PollResponse::default_responses(),
         }
     }
@@ -24,6 +26,7 @@ impl GroupEvent {
         GroupEvent {
             title: "Weekly Trivia".to_string(),
             description: "Eventide Brewing @ 7pm. You in?".to_string(),
+            channel_id: 1109898694456787124,
             options: PollResponse::default_responses(),
         }
     }
