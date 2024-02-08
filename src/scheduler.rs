@@ -1,4 +1,5 @@
-use clokwerk::{AsyncScheduler, Interval, Job};
+use clokwerk::Interval;
+use clokwerk::{AsyncScheduler, Job, TimeUnits};
 use serenity::{
     all::ChannelId,
     async_trait,
@@ -20,19 +21,42 @@ impl EventHandler for Handler {
         // Initialize scheduler
         let mut scheduler: AsyncScheduler = AsyncScheduler::new();
 
+        // Context Copies
+        let pb_ctx: Context = ctx.clone();
+        let trivia_ctx: Context = ctx.clone();
+
         // Pickleball
         scheduler
-            .every(Interval::Monday)
-            .at("12:55")
-            .run(send_message(ctx, GroupEvent::pickleball()));
+            .every(10.seconds())
+            // .every(Interval::Thursday)
+            // .at("14:34")
+            .run(move || {
+                let x: Context = pb_ctx.clone();
+                println!("Should send1");
+                async move {
+                    println!("Should send");
+                    send_message(x, GroupEvent::pickleball()).await;
+                }
+            });
+
+        // Trivia
+        scheduler
+            .every(Interval::Thursday)
+            .at("14:34")
+            .run(move || {
+                let x: Context = trivia_ctx.clone();
+                async move {
+                    send_message(x, GroupEvent::trivia()).await;
+                }
+            });
 
         // Start scheduler when bot is ready
         tokio::spawn(async move {
             // Start the scheduler
             loop {
                 println!("Flushing scheduler");
-                scheduler.run_pending();
-                tokio::time::sleep(Duration::from_secs(60)).await; // Check every minute
+                scheduler.run_pending().await;
+                tokio::time::sleep(Duration::from_secs(1)).await; // Check every minute
             }
         });
     }
@@ -42,9 +66,10 @@ async fn send_message(ctx: Context, event: GroupEvent) {
     // Get the channel ID where you want to send the message
     let channel_id: ChannelId = CHANNEL_ID.into();
 
-    let message = event.build_message(); // Assuming GroupEvent has a method build_message()
+    let message: serenity::builder::CreateMessage = event.build_message();
 
-    if let Err(why) = channel_id.send_message(&ctx.http, message).await {
-        println!("Error sending message: {:?}", why);
-    }
+    channel_id
+        .send_message(&ctx.http, message)
+        .await
+        .expect("Message failed to send!");
 }
