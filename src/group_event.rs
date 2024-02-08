@@ -29,16 +29,19 @@ impl GroupEvent {
     }
 
     pub fn options_string(&self) -> String {
-        let options_string = self.options.iter().fold(String::new(), |acc, response| {
-            acc + &format!(
-                "{} - {}\n",
-                response.text,
-                match &response.reaction {
-                    ReactionType::Unicode(reaction) => reaction,
-                    _ => "unknown",
-                }
-            )
-        });
+        let options_string =
+            self.options
+                .iter()
+                .fold(String::new(), |acc: String, response: &PollResponse| {
+                    acc + &format!(
+                        "{} {}\n",
+                        match &response.reaction {
+                            ReactionType::Unicode(reaction) => reaction,
+                            _ => "unknown",
+                        },
+                        response.text,
+                    )
+                });
 
         options_string
     }

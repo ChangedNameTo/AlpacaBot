@@ -26,23 +26,17 @@ impl EventHandler for Handler {
         let trivia_ctx: Context = ctx.clone();
 
         // Pickleball
-        scheduler
-            .every(10.seconds())
-            // .every(Interval::Thursday)
-            // .at("14:34")
-            .run(move || {
-                let x: Context = pb_ctx.clone();
-                println!("Should send1");
-                async move {
-                    println!("Should send");
-                    send_message(x, GroupEvent::pickleball()).await;
-                }
-            });
+        scheduler.every(Interval::Monday).at("10:00").run(move || {
+            let x: Context = pb_ctx.clone();
+            async move {
+                send_message(x, GroupEvent::pickleball()).await;
+            }
+        });
 
         // Trivia
         scheduler
             .every(Interval::Thursday)
-            .at("14:34")
+            .at("10:00")
             .run(move || {
                 let x: Context = trivia_ctx.clone();
                 async move {
@@ -50,13 +44,17 @@ impl EventHandler for Handler {
                 }
             });
 
+        // Still alive
+        scheduler
+            .every(1.hours())
+            .run(|| async { println!("Still living") });
+
         // Start scheduler when bot is ready
         tokio::spawn(async move {
             // Start the scheduler
             loop {
-                println!("Flushing scheduler");
                 scheduler.run_pending().await;
-                tokio::time::sleep(Duration::from_secs(1)).await; // Check every minute
+                tokio::time::sleep(Duration::from_secs(60)).await; // Check every minute
             }
         });
     }
