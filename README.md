@@ -1,5 +1,7 @@
 # AlpacaBot
 
+[![Bot Testing](https://github.com/ChangedNameTo/AlpacaBot/actions/workflows/bot_testing.yml/badge.svg)](https://github.com/ChangedNameTo/AlpacaBot/actions/workflows/bot_testing.yml)
+
 Discord bot to handle some stuff for my friends and personal life
 
 ## Local Development
