@@ -14,5 +14,3 @@ Handled by GitHub Actions. Pushing or merging to `main` will trigger a build and
 ## Usage
 
 - `!ping` - Check if the bot is alive
-- `!trivia` - Create a trivia attendance poll
-- `!pickle` - Create a pickleball attendance poll
