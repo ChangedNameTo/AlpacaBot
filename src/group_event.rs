@@ -10,6 +10,7 @@ pub(crate) struct GroupEvent {
     pub description: String,
     pub channel_id: u64,
     pub options: Vec<PollResponse>,
+    pub role: String,
 }
 
 impl GroupEvent {
@@ -19,6 +20,7 @@ impl GroupEvent {
             description: "Westside Paper @ 7pm. You in?".to_string(),
             channel_id: 1119044105792659526,
             options: PollResponse::default_responses(),
+            role: "pickleball".to_string(),
         }
     }
 
@@ -28,6 +30,7 @@ impl GroupEvent {
             description: "Eventide Brewing @ 7pm. You in?".to_string(),
             channel_id: 1109898694456787124,
             options: PollResponse::default_responses(),
+            role: "trivia".to_string(),
         }
     }
 
@@ -63,6 +66,7 @@ impl GroupEvent {
             .field("Options", self.options_string(), false);
 
         let message: CreateMessage = CreateMessage::new()
+            .content("@".to_owned() + &self.role)
             .embed(embed)
             .reactions(self.reactions());
 
