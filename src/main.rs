@@ -3,9 +3,7 @@ extern crate dotenv;
 use dotenv::dotenv;
 use std::env;
 
-use serenity::framework::standard::macros::command;
-use serenity::framework::standard::{CommandResult, Configuration, StandardFramework};
-use serenity::model::channel::Message;
+use serenity::framework::standard::{Configuration, StandardFramework};
 use serenity::prelude::*;
 
 pub mod group_event;
@@ -42,11 +40,4 @@ async fn main() {
     if let Err(why) = client.start().await {
         println!("An error occurred while running the client: {:?}", why);
     }
-}
-
-#[command]
-async fn ping(ctx: &Context, msg: &Message) -> CommandResult {
-    msg.reply(ctx, "Pong!").await?;
-
-    Ok(())
 }
