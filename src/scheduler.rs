@@ -24,7 +24,7 @@ impl EventHandler for Handler {
         let trivia_ctx: Context = ctx.clone();
 
         // Pickleball
-        scheduler.every(Interval::Monday).at("15:00").run(move || {
+        scheduler.every(Interval::Wednesday).at("15:00").run(move || {
             let x: Context = pb_ctx.clone();
             async move {
                 send_message(x, GroupEvent::pickleball()).await;
