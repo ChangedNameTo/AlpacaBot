@@ -30,7 +30,7 @@ impl EventHandler for Handler {
         let attendance_report_wait: Duration = time::Duration::from_secs(21600);
 
         // Pickleball
-        scheduler.every(Interval::Monday).at("15:00").run(move || {
+        scheduler.every(Interval::Wednesday).at("15:00").run(move || {
             let x: Context = pb_ctx.clone();
             async move {
                 let message = send_message(x, GroupEvent::pickleball()).await;
