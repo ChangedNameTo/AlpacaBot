@@ -27,7 +27,7 @@ impl GroupEvent {
     pub fn trivia() -> Self {
         GroupEvent {
             title: "Weekly Trivia".to_string(),
-            description: "Big Game @ 7:30pm. You in?".to_string(),
+            description: "Trivia Who Knows Where @ 7:30pm. You in?".to_string(),
             channel_id: 1109898694456787124,
             options: PollResponse::default_responses(),
             role: 1131001427834183810.into(),
