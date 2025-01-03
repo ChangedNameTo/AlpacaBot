@@ -1,7 +1,7 @@
 use clokwerk::Interval;
 use clokwerk::{AsyncScheduler, Job, TimeUnits};
 use core::time;
-use serenity::all::{MessageReaction, ReactionType, User};
+use serenity::all::{ReactionType, User};
 use serenity::{
     all::{ChannelId, Message},
     async_trait,
@@ -30,13 +30,16 @@ impl EventHandler for Handler {
         let attendance_report_wait: Duration = time::Duration::from_secs(21600);
 
         // Pickleball
-        scheduler.every(Interval::Wednesday).at("15:00").run(move || {
-            let x: Context = pb_ctx.clone();
-            async move {
-                let message = send_message(x, GroupEvent::pickleball()).await;
-                tokio::time::sleep(attendance_report_wait);
-            }
-        });
+        scheduler
+            .every(Interval::Wednesday)
+            .at("15:00")
+            .run(move || {
+                let x: Context = pb_ctx.clone();
+                async move {
+                    let _message = send_message(x, GroupEvent::pickleball()).await;
+                    tokio::time::sleep(attendance_report_wait).await;
+                }
+            });
 
         // Trivia
         scheduler
@@ -79,8 +82,8 @@ async fn send_message(ctx: Context, event: GroupEvent) -> Message {
     sent_message
 }
 
-async fn send_attendance_report(ctx: Context, event: GroupEvent, prior_message: Message) {
-    let yes_responses: Vec<User> = prior_message
+async fn _send_attendance_report(ctx: Context, event: GroupEvent, prior_message: Message) {
+    let _yes_responses: Vec<User> = prior_message
         .reaction_users(
             ctx.http.clone(),
             ReactionType::Unicode("👍".to_string()),
@@ -90,7 +93,7 @@ async fn send_attendance_report(ctx: Context, event: GroupEvent, prior_message: 
         .await
         .expect("No reactions found!");
 
-    let no_responses: Vec<User> = prior_message
+    let _no_responses: Vec<User> = prior_message
         .reaction_users(
             ctx.http.clone(),
             ReactionType::Unicode("👎".to_string()),
@@ -100,7 +103,7 @@ async fn send_attendance_report(ctx: Context, event: GroupEvent, prior_message: 
         .await
         .expect("No reactions found!");
 
-    let maybe_responses: Vec<User> = prior_message
+    let _maybe_responses: Vec<User> = prior_message
         .reaction_users(
             ctx.http.clone(),
             ReactionType::Unicode("👎".to_string()),
@@ -110,7 +113,7 @@ async fn send_attendance_report(ctx: Context, event: GroupEvent, prior_message: 
         .await
         .expect("No reactions found!");
 
-    let late_responses: Vec<User> = prior_message
+    let _late_responses: Vec<User> = prior_message
         .reaction_users(
             ctx.http.clone(),
             ReactionType::Unicode("👎".to_string()),
