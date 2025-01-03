@@ -1,3 +1,5 @@
+#![allow(deprecated)]
+
 extern crate dotenv;
 
 use dotenv::dotenv;
