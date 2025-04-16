@@ -23,7 +23,8 @@ impl EventHandler for Handler {
         let mut scheduler: AsyncScheduler = AsyncScheduler::new();
 
         // Context Copies
-        let pb_ctx: Context = ctx.clone();
+        let pb_ticket_ctx: Context = ctx.clone();
+        let pb_event_ctx: Context = ctx.clone();
         let trivia_ctx: Context = ctx.clone();
 
         // Duration
@@ -31,12 +32,23 @@ impl EventHandler for Handler {
 
         // Pickleball
         scheduler
+            .every(Interval::Sunday)
+            .at("15:00")
+            .run(move || {
+                let x: Context = pb_ticket_ctx.clone();
+                async move {
+                    let _message = send_message(x, GroupEvent::pickleball_ticket()).await;
+                    tokio::time::sleep(attendance_report_wait).await;
+                }
+            });
+
+        scheduler
             .every(Interval::Wednesday)
             .at("15:00")
             .run(move || {
-                let x: Context = pb_ctx.clone();
+                let x: Context = pb_event_ctx.clone();
                 async move {
-                    let _message = send_message(x, GroupEvent::pickleball()).await;
+                    let _message = send_message(x, GroupEvent::pickleball_event()).await;
                     tokio::time::sleep(attendance_report_wait).await;
                 }
             });

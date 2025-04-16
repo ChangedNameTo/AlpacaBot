@@ -14,12 +14,22 @@ pub(crate) struct GroupEvent {
 }
 
 impl GroupEvent {
-    pub fn pickleball() -> Self {
+    pub fn pickleball_event() -> Self {
         GroupEvent {
-            title: "Weekly Pickleball".to_string(),
-            description: "Westside Paper @ 7pm. You in?".to_string(),
+            title: "Weekly Pickleball Event Reminder".to_string(),
+            description: "Pickelball Social Club (Peachtree Hills) @ Wed. 7pm. You in?".to_string(),
             channel_id: 1119044105792659526,
             options: PollResponse::default_responses(),
+            role: 1119044184213565450.into(),
+        }
+    }
+
+    pub fn pickleball_ticket() -> Self {
+        GroupEvent {
+            title: "Weekly Pickleball Ticket Reminder".to_string(),
+            description: "Buy your pickleball ticket here: https://www.pickleballsocialclubatl.com/event-details".to_string(),
+            channel_id: 1119044105792659526,
+            options: PollResponse::bought_responses(),
             role: 1119044184213565450.into(),
         }
     }

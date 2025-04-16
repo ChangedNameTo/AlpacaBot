@@ -19,6 +19,13 @@ impl PollResponse {
             reaction: ReactionType::Unicode("👎".to_string()),
         }
     }
+    
+    pub fn bought_response() -> Self {
+        PollResponse {
+            text: "Bought Ticket".to_string(),
+            reaction: ReactionType::Unicode("🎟️".to_string()),
+        }
+    }
 
     pub fn maybe_response() -> Self {
         PollResponse {
@@ -40,6 +47,14 @@ impl PollResponse {
             PollResponse::no_response(),
             PollResponse::maybe_response(),
             PollResponse::late_response(),
+        ]
+    }
+
+    pub fn bought_responses() -> Vec<PollResponse> {
+        vec![
+            PollResponse::bought_response(),
+            PollResponse::no_response(),
+            PollResponse::maybe_response(),
         ]
     }
 }
